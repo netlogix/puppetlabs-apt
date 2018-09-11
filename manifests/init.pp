@@ -119,6 +119,9 @@ class apt (
     content  => "${confheadertmp}${updatestamptmp}",
   }
 
+	# required for adding GPG keys on Debian 9 (and derivatives)
+	ensure_packages(['dirmngr'])
+
   file { 'sources.list':
     ensure  => file,
     path    => $::apt::sources_list,
@@ -200,7 +203,4 @@ class apt (
   if $pins {
     create_resources('apt::pin', $pins)
   }
-
-  # required for adding GPG keys on Debian 9 (and derivatives)
-  ensure_packages(['dirmngr'])
 }
