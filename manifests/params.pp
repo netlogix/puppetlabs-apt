@@ -94,7 +94,15 @@ class apt::params {
         'repos'    => 'main universe multiverse restricted',
       }
       $ppa_options        = '-y'
-      $ppa_package        = 'software-properties-common'
+	    case $facts['os']['distro']['codename'] {
+		    'precise': {
+			    $ppa_package = 'python-software-properties'
+		    }
+		    default: {
+			    $ppa_package        = 'software-properties-common'
+		    }
+	    }
+
     }
     undef: {
       fail(translate('Unable to determine value for fact os[\"name\"]'))
